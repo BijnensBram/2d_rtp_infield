@@ -358,14 +358,14 @@ int main(int argc, char *argv[]){
 						}
 					} else if (move == 2){
 						y++;
-						if (x <= nxh && y == (nyh+1)){
+						if (x >= nxh && y == (nyh+1)){
 							y--;
 						} else if (y == (ny+1)){
 							y = ny;
 						}
 					} else if (move == 3){
 						y--;
-						if (x <= nxh && y == nyh){
+						if (x >= nxh && y == nyh){
 							y++;
 						}else if (y == -1){
 							y = 0;

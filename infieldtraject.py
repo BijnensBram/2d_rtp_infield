@@ -71,7 +71,7 @@ import time
 # plt.savefig("noc=0-1.png",dpi=190)
 # plt.show()
 
-data = np.loadtxt("current.txt",comments="#",delimiter=";")
+data = np.loadtxt("inverted.txt",comments="#",delimiter=";")
 plt.plot(data[:,0],data[:,1],marker=".")
 
 plt.hlines(0,xmin=-0.01,xmax=1,colors="black")
