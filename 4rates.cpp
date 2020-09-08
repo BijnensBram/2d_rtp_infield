@@ -70,7 +70,7 @@ int testerror (double dt, double p[],double m[],double u[],double d[]){
 
 int main(int argc, char *argv[]){
     const double pi2 = 6.28318530718;
-	const double tmax = 500;
+	const double tmax = 2000;
 	const double lx = 1;
 	const double ly = 1;
 	const double dx = 0.1;
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]){
 	/* const int ny = int(ly/dx); */
 	const int nx = 10;
 	const int ny = 10;
-    const int N = 10; 
+    const int N = 500; 
 	double rand = 0;
 	double rand2 = 0;
 
@@ -103,7 +103,7 @@ int main(int argc, char *argv[]){
 	PRINTER(N);
 	PRINTER(tmax);
 
-	for (double e = -5; e <= 5; e+=0.2){
+	for (double e = -0.1; e <= 0.1; e+=0.02){
 
 		double bp = 0.5*(c+e);
 		double bm = 0.5*(-c+e);

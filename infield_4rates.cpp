@@ -21,7 +21,7 @@ int movetest(double dt, double k[], double rand){
 }
 
 int fliptest(double mu,int sigma, double rand,double rand2){
-	if (rand > mu){
+	if (rand < 1-mu){
 		return sigma;
 	} else {
 		if (sigma == 0){
@@ -70,7 +70,7 @@ int testerror (double dt, double p[],double m[],double u[],double d[]){
 
 int main(int argc, char *argv[]){
     const double pi2 = 6.28318530718;
-	const double tmax = 2000;
+	const double tmax = 1000;
 	const double lx = 1;
 	const double ly = 1;
 	const double dx = 0.1;
@@ -79,7 +79,9 @@ int main(int argc, char *argv[]){
 	/* const int ny = int(ly/dx); */
 	const int nx = 10;
 	const int ny = 10;
-    const int N = 500; 
+	const int nxh = 5;
+	const int nyh = 5;
+    const int N = 100; 
 	double rand = 0;
 	double rand2 = 0;
 
@@ -92,10 +94,12 @@ int main(int argc, char *argv[]){
 	std::random_device dev;
 	std::mt19937 rng(dev());
 	std::uniform_real_distribution<double> dist(0,1);
+
 	double c = stod(argv[1]);
 	double a = stod(argv[2]);
 	double dt = stod(argv[3]);
-	int sigma = 3*dist(rng);
+	/* int sigma = 3*dist(rng); */
+	int sigma = 0;
 
 	PRINTER(dt);
 	PRINTER(a);
@@ -103,7 +107,7 @@ int main(int argc, char *argv[]){
 	PRINTER(N);
 	PRINTER(tmax);
 
-	for (double e = 0; e <= 1; e+=0.05){
+	for (double e = -1; e <= 1; e+=0.1){
 
 		double bp = 0.5*(c+e);
 		double bm = 0.5*(-c+e);
@@ -148,15 +152,15 @@ int main(int argc, char *argv[]){
 					move = movetest(dt,p,rand);
 					if (move == 0){
 						x++;
-						if (x == nx + 1 && y <= int(nx*0.5)){
+						if (x == (nx+1) && y <= nyh){
 							x = nx;
-						} else if (x == nx+1){
+						} else if (x == (nx+1)){
 							count++;
 							x=1;
 						}
 					} else if (move == 1){
 						x--;
-						if (x == -1 && y <= int(ny*0.5)){
+						if (x == -1 && y <= nyh){
 							x = 0;
 						} else if (x == -1){
 							x = nx -1;
@@ -164,16 +168,16 @@ int main(int argc, char *argv[]){
 						}
 					} else if (move == 2){
 						y++;
-						if (y == ny+1){
+						if (y == (ny+1)){
 							y = ny;
-						} else if (x >= int(0.5*nx) && y == int(0.5*ny)+1){
+						} else if (x >= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y --;
 						if (y == -1){
 							y = 0;
-						} else if (x >= int(0.5*nx) && y == int(0.5*ny)){
+						} else if (x >= nxh && y == nyh){
 							y++;
 						}
 					}
@@ -182,15 +186,15 @@ int main(int argc, char *argv[]){
 					move = movetest(dt,m,rand);
 					if (move == 0){
 						x++;
-						if (x == nx + 1 && y <= int(nx*0.5)){
+						if (x == (nx+1) && y <= nyh){
 							x = nx;
-						} else if (x == nx+1){
+						} else if (x == (nx+1)){
 							count++;
 							x=1;
 						}
 					} else if (move == 1){
 						x--;
-						if (x == -1 && y <= int(ny*0.5)){
+						if (x == -1 && y <= nyh){
 							x = 0;
 						} else if (x == -1){
 							x = nx -1;
@@ -198,16 +202,16 @@ int main(int argc, char *argv[]){
 						}
 					} else if (move == 2){
 						y++;
-						if (y == ny+1){
+						if (y == (ny+1)){
 							y = ny;
-						} else if (x >= int(0.5*nx) && y == int(0.5*ny)+1){
+						} else if (x >= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y --;
 						if (y == -1){
 							y = 0;
-						} else if (x >= int(0.5*nx) && y == int(0.5*ny)){
+						} else if (x >= nxh && y == nyh){
 							y++;
 						}
 					}
@@ -216,15 +220,15 @@ int main(int argc, char *argv[]){
 					move = movetest(dt,u,rand);
 					if (move == 0){
 						x++;
-						if (x == nx + 1 && y <= int(nx*0.5)){
+						if (x == (nx+1) && y <= nyh){
 							x = nx;
-						} else if (x == nx+1){
+						} else if (x == (nx+1)){
 							count++;
 							x=1;
 						}
 					} else if (move == 1){
 						x--;
-						if (x == -1 && y <= int(ny*0.5)){
+						if (x == -1 && y <= nyh){
 							x = 0;
 						} else if (x == -1){
 							x = nx -1;
@@ -232,16 +236,16 @@ int main(int argc, char *argv[]){
 						}
 					} else if (move == 2){
 						y++;
-						if (y == ny+1){
+						if (y == (ny+1)){
 							y = ny;
-						} else if (x >= int(0.5*nx) && y == int(0.5*ny)+1){
+						} else if (x >= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y --;
 						if (y == -1){
 							y = 0;
-						} else if (x >= int(0.5*nx) && y == int(0.5*ny)){
+						} else if (x >= nxh && y == nyh){
 							y++;
 						}
 					}
@@ -250,15 +254,15 @@ int main(int argc, char *argv[]){
 					move = movetest(dt,d,rand);
 					if (move == 0){
 						x++;
-						if (x == nx + 1 && y <= int(nx*0.5)){
+						if (x == (nx+1) && y <= nyh){
 							x = nx;
-						} else if (x == nx+1){
+						} else if (x == (nx+1)){
 							count++;
 							x=1;
 						}
 					} else if (move == 1){
 						x--;
-						if (x == -1 && y <= int(ny*0.5)){
+						if (x == -1 && y <= nyh){
 							x = 0;
 						} else if (x == -1){
 							x = nx -1;
@@ -266,16 +270,16 @@ int main(int argc, char *argv[]){
 						}
 					} else if (move == 2){
 						y++;
-						if (y == ny+1){
+						if (y == (ny+1)){
 							y = ny;
-						} else if (x >= int(0.5*nx) && y == int(0.5*ny)+1){
+						} else if (x >= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y --;
 						if (y == -1){
 							y = 0;
-						} else if (x >= int(0.5*nx) && y == int(0.5*ny)){
+						} else if (x >= nxh && y == nyh){
 							y++;
 						}
 					}
