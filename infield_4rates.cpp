@@ -242,7 +242,7 @@ int main(int argc, char *argv[]){
 						x++;
 						if (x == (nxh+1) && y <= nyh){
 							x--;
-						} else if (x == (nx+1)){
+						}else if (x == (nx+1)){
 							count++;
 							x=1;
 						}
@@ -260,7 +260,6 @@ int main(int argc, char *argv[]){
 							y--;
 						} else if (y == (ny+1)){
 							y = ny;
-							y--;
 						}
 					} else if (move == 3){
 						y--;
@@ -295,7 +294,6 @@ int main(int argc, char *argv[]){
 							y--;
 						} else if (y == (ny+1)){
 							y = ny;
-							y--;
 						}
 					} else if (move == 3){
 						y--;
@@ -330,7 +328,6 @@ int main(int argc, char *argv[]){
 							y--;
 						} else if (y == (ny+1)){
 							y = ny;
-							y--;
 						}
 					} else if (move == 3){
 						y--;
@@ -365,7 +362,6 @@ int main(int argc, char *argv[]){
 							y--;
 						} else if (y == (ny+1)){
 							y = ny;
-							y--;
 						}
 					} else if (move == 3){
 						y--;
