@@ -20,43 +20,11 @@ int movetest(double dt, double k[], double rand){
 	}
 }
 
-int fliptest(double mu,int sigma, double rand,double rand2){
+int fliptest(double mu,int sigma, double rand,int rand2){
 	if (rand < 1-mu){
 		return sigma;
 	} else {
-		if (sigma == 0){
-			if (rand2 < 0.333333333) {
-				return 1;
-			} else if (rand2 < 0.666666666) {
-				return 2;
-			} else {
-				return 3;
-			}
-		} else if (sigma == 1){
-			if (rand2 < 0.333333333) {
-				return 0;
-			} else if (rand2 < 0.666666666) {
-				return 2;
-			} else {
-				return 3;
-			}
-		} else if (sigma == 2){
-			if (rand2 < 0.333333333) {
-				return 0;
-			} else if (rand2 < 0.666666666) {
-				return 1;
-			} else {
-				return 3;
-			}
-		} else {
-			if (rand2 < 0.333333333) {
-				return 0;
-			} else if (rand2 < 0.666666666) {
-				return 1;
-			} else {
-				return 2;
-			}
-		}
+		return sigma = (sigma + rand2) % 4;
 	}
 }
 
@@ -70,7 +38,7 @@ int testerror (double dt, double p[],double m[],double u[],double d[]){
 
 int main(int argc, char *argv[]){
     const double pi2 = 6.28318530718;
-	const double tmax = 1000;
+	const double tmax = stod(argv[4]);
 	const double lx = 1;
 	const double ly = 1;
 	const double dx = 0.1;
@@ -83,25 +51,26 @@ int main(int argc, char *argv[]){
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 100; 
+    const int N = 1; 
 	double rand = 0;
-	double rand2 = 0;
+	int rand2 = 0;
 
     /* init */
     int x = 0;
     int y = 0;
-	/* int sigma = 1; */
 
     /* sim */
 	std::random_device dev;
 	std::mt19937 rng(dev());
 	std::uniform_real_distribution<double> dist(0,1);
+	std::uniform_int_distribution<int> distsigma(0,3);
+	std::uniform_int_distribution<int> distx(0,nx);
+	std::uniform_int_distribution<int> disty(0,ny);
 
 	double c = stod(argv[1]);
 	double a = stod(argv[2]);
 	double dt = stod(argv[3]);
-	/* int sigma = 3*dist(rng); */
-	int sigma = 0;
+	int sigma = distsigma(rng);
 
 	PRINTER(dt);
 	PRINTER(a);
@@ -109,7 +78,7 @@ int main(int argc, char *argv[]){
 	PRINTER(N);
 	PRINTER(tmax);
 
-	for (double e = -1; e <= 1; e+=0.1){
+	for (double e = 0; e <= 0; e+=0.2){
 
 		double bp = 0.5*(c+e);
 		double bm = 0.5*(-c+e);
@@ -122,32 +91,149 @@ int main(int argc, char *argv[]){
 		double u[4] = {(be+sqrt(be*be+1))/dx,1/((be+sqrt(be*be+1))*dx),(bu+sqrt(bu*bu+1))/dx,1/((bu+sqrt(bu*bu+1))*dx)};
 		double d[4] = {(be+sqrt(be*be+1))/dx,1/((be+sqrt(be*be+1))*dx),(bd+sqrt(bd*bd+1))/dx,1/((bd+sqrt(bd*bd+1))*dx)};
 		int move = 0;	
-		/* PRINTER(p[0]); */
-		/* PRINTER(p[1]); */
-		/* PRINTER(p[2]); */
-		/* PRINTER(p[3]); */
-		/* PRINTER(m[0]); */
-		/* PRINTER(m[1]); */
-		/* PRINTER(m[2]); */
-		/* PRINTER(m[3]); */
-		/* PRINTER(u[0]); */
-		/* PRINTER(u[1]); */
-		/* PRINTER(u[2]); */
-		/* PRINTER(u[3]); */
-		/* PRINTER(d[0]); */
-		/* PRINTER(d[1]); */
-		/* PRINTER(d[2]); */
-		/* PRINTER(d[3]); */
 		testerror(dt,p,m,u,d);
 		int count = 0;
 		for (int i=1; i <= N; i++){
-			rand = dist(rng);
-			x = int(rand*nx);
-			rand = dist(rng);
-			y = int(rand*ny);
+			x = distx(rng);
+			y = disty(rng);
+			for (double t = 0; t < 100; t += dt){
+				rand = dist(rng);
+				rand2 = distsigma(rng);
+				sigma = fliptest(a*dt,sigma,rand,rand2);
+				if (sigma == 0){
+					rand = dist(rng);
+					move = movetest(dt,p,rand);
+					if (move == 0){
+						x++;
+						if (x == (nx+1)){
+							x=1;
+						} else if (x == (nxh+1) && y <= nyh){
+							x--;
+						}
+					} else if (move == 1){
+						x--;
+						if (x == -1){
+							x = nx -1;
+						} else if (x == nxh && y <= nyh){
+							x++;
+						}
+					} else if (move == 2){
+						y++;
+						if (y == (ny+1)){
+							y = ny;
+						} else if (x <= nxh && y == (nyh+1)){
+							y--;
+						}
+					} else if (move == 3){
+						y--;
+						if (y == -1){
+							y = 0;
+						} else if (x <= nxh && y == nyh){
+							y++;
+						}
+					}
+				} else if (sigma == 1){
+					rand = dist(rng);
+					move = movetest(dt,m,rand);
+					if (move == 0){
+						x++;
+						if (x == (nx+1)){
+							x=1;
+						} else if (x == (nxh+1) && y <= nyh){
+							x--;
+						}
+					} else if (move == 1){
+						x--;
+						if (x == -1){
+							x = nx -1;
+						} else if (x == nxh && y <= nyh){
+							x++;
+						}
+					} else if (move == 2){
+						y++;
+						if (y == (ny+1)){
+							y = ny;
+						} else if (x <= nxh && y == (nyh+1)){
+							y--;
+						}
+					} else if (move == 3){
+						y--;
+						if (y == -1){
+							y = 0;
+						} else if (x <= nxh && y == nyh){
+							y++;
+						}
+					}
+				} else if (sigma == 2){
+					rand = dist(rng);
+					move = movetest(dt,u,rand);
+					if (move == 0){
+						x++;
+						if (x == (nx+1)){
+							x=1;
+						} else if (x == (nxh+1) && y <= nyh){
+							x--;
+						}
+					} else if (move == 1){
+						x--;
+						if (x == -1){
+							x = nx -1;
+						} else if (x == nxh && y <= nyh){
+							x++;
+						}
+					} else if (move == 2){
+						y++;
+						if (y == (ny+1)){
+							y = ny;
+						} else if (x <= nxh && y == (nyh+1)){
+							y--;
+						}
+					} else if (move == 3){
+						y--;
+						if (y == -1){
+							y = 0;
+						} else if (x <= nxh && y == nyh){
+							y++;
+						}
+					}
+				} else {
+					rand = dist(rng);
+					move = movetest(dt,d,rand);
+					if (move == 0){
+						x++;
+						if (x == (nx+1)){
+							x=1;
+						} else if (x == (nxh+1) && y <= nyh){
+							x--;
+						}
+					} else if (move == 1){
+						x--;
+						if (x == -1){
+							x = nx -1;
+						} else if (x == nxh && y <= nyh){
+							x++;
+						}
+					} else if (move == 2){
+						y++;
+						if (y == (ny+1)){
+							y = ny;
+						} else if (x <= nxh && y == (nyh+1)){
+							y--;
+						}
+					} else if (move == 3){
+						y--;
+						if (y == -1){
+							y = 0;
+						} else if (x <= nxh && y == nyh){
+							y++;
+						}
+					}
+				}
+				/* cout << x << ";" << y << endl; */
+			}
 			for (double t = 0; t < tmax; t += dt){
 				rand = dist(rng);
-				rand2 = dist(rng);
+				rand2 = distsigma(rng);
 				sigma = fliptest(a*dt,sigma,rand,rand2);
 				if (sigma == 0){
 					rand = dist(rng);
@@ -172,14 +258,14 @@ int main(int argc, char *argv[]){
 						y++;
 						if (y == (ny+1)){
 							y = ny;
-						} else if (x >= nx1 && x <= nx2 && y == (nyh+1)){
+						} else if (x <= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y--;
 						if (y == -1){
 							y = 0;
-						} else if (x >= nx1 && x <= nx2 && y == nyh){
+						} else if (x <= nxh && y == nyh){
 							y++;
 						}
 					}
@@ -206,14 +292,14 @@ int main(int argc, char *argv[]){
 						y++;
 						if (y == (ny+1)){
 							y = ny;
-						} else if (x >= nx1 && x <= nx2 && y == (nyh+1)){
+						} else if (x <= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y--;
 						if (y == -1){
 							y = 0;
-						} else if (x >= nx1 && x <= nx2 && y == nyh){
+						} else if (x <= nxh && y == nyh){
 							y++;
 						}
 					}
@@ -240,14 +326,14 @@ int main(int argc, char *argv[]){
 						y++;
 						if (y == (ny+1)){
 							y = ny;
-						} else if (x >= nx1 && x <= nx2 && y == (nyh+1)){
+						} else if (x <= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y--;
 						if (y == -1){
 							y = 0;
-						} else if (x >= nx1 && x <= nx2 && y == nyh){
+						} else if (x <= nxh && y == nyh){
 							y++;
 						}
 					}
@@ -274,22 +360,23 @@ int main(int argc, char *argv[]){
 						y++;
 						if (y == (ny+1)){
 							y = ny;
-						} else if (x >= nx1 && x <= nx2 && y == (nyh+1)){
+						} else if (x <= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y--;
 						if (y == -1){
 							y = 0;
-						} else if (x >= nx1 && x <= nx2 && y == nyh){
+						} else if (x <= nxh && y == nyh){
 							y++;
 						}
 					}
 				}
-				/* cout << x << ";" << y << endl; */
+				/* cout << move << ";" << sigma << endl; */
+				cout << x << ";" << y << ";" << count << endl;
 			}
 		}
-		cout << e << ";" << count/(tmax*N) << endl;
+		/* cout << e << ";" << count/(tmax*N) << endl; */
 	}
 	return 0;
 }
