@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 1; 
+    const int N = 100; 
 	double rand = 0;
 	int rand2 = 0;
 
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]){
 	PRINTER(N);
 	PRINTER(tmax);
 
-	for (double e = 0; e <= 0; e+=0.2){
+	for (double e = -1; e <= 1; e+=0.2){
 
 		double bp = 0.5*(c+e);
 		double bm = 0.5*(-c+e);
@@ -240,33 +240,34 @@ int main(int argc, char *argv[]){
 					move = movetest(dt,p,rand);
 					if (move == 0){
 						x++;
-						if (x == (nx+1)){
+						if (x == (nxh+1) && y <= nyh){
+							x--;
+						} else if (x == (nx+1)){
 							count++;
 							x=1;
-						} else if (x == (nxh+1) && y <= nyh){
-							x--;
 						}
 					} else if (move == 1){
 						x--;
-						if (x == -1){
+						if (x == nxh && y <= nyh){
+							x++;
+						}else if (x == -1){
 							x = nx -1;
 							count--;
-						} else if (x == nxh && y <= nyh){
-							x++;
 						}
 					} else if (move == 2){
 						y++;
-						if (y == (ny+1)){
+						if (x <= nxh && y == (nyh+1)){
+							y--;
+						} else if (y == (ny+1)){
 							y = ny;
-						} else if (x <= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y--;
-						if (y == -1){
-							y = 0;
-						} else if (x <= nxh && y == nyh){
+						if (x <= nxh && y == nyh){
 							y++;
+						}else if (y == -1){
+							y = 0;
 						}
 					}
 				} else if (sigma == 1){
@@ -274,33 +275,34 @@ int main(int argc, char *argv[]){
 					move = movetest(dt,m,rand);
 					if (move == 0){
 						x++;
-						if (x == (nx+1)){
+						if (x == (nxh+1) && y <= nyh){
+							x--;
+						}else if (x == (nx+1)){
 							count++;
 							x=1;
-						} else if (x == (nxh+1) && y <= nyh){
-							x--;
 						}
 					} else if (move == 1){
 						x--;
-						if (x == -1){
+						if (x == nxh && y <= nyh){
+							x++;
+						}else if (x == -1){
 							x = nx -1;
 							count--;
-						} else if (x == nxh && y <= nyh){
-							x++;
 						}
 					} else if (move == 2){
 						y++;
-						if (y == (ny+1)){
+						if (x <= nxh && y == (nyh+1)){
+							y--;
+						} else if (y == (ny+1)){
 							y = ny;
-						} else if (x <= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y--;
-						if (y == -1){
-							y = 0;
-						} else if (x <= nxh && y == nyh){
+						if (x <= nxh && y == nyh){
 							y++;
+						}else if (y == -1){
+							y = 0;
 						}
 					}
 				} else if (sigma == 2){
@@ -308,33 +310,34 @@ int main(int argc, char *argv[]){
 					move = movetest(dt,u,rand);
 					if (move == 0){
 						x++;
-						if (x == (nx+1)){
+						if (x == (nxh+1) && y <= nyh){
+							x--;
+						}else if (x == (nx+1)){
 							count++;
 							x=1;
-						} else if (x == (nxh+1) && y <= nyh){
-							x--;
 						}
 					} else if (move == 1){
 						x--;
-						if (x == -1){
+						if (x == nxh && y <= nyh){
+							x++;
+						}else if (x == -1){
 							x = nx -1;
 							count--;
-						} else if (x == nxh && y <= nyh){
-							x++;
 						}
 					} else if (move == 2){
 						y++;
-						if (y == (ny+1)){
+						if (x <= nxh && y == (nyh+1)){
+							y--;
+						} else if (y == (ny+1)){
 							y = ny;
-						} else if (x <= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y--;
-						if (y == -1){
-							y = 0;
-						} else if (x <= nxh && y == nyh){
+						if (x <= nxh && y == nyh){
 							y++;
+						}else if (y == -1){
+							y = 0;
 						}
 					}
 				} else {
@@ -342,41 +345,42 @@ int main(int argc, char *argv[]){
 					move = movetest(dt,d,rand);
 					if (move == 0){
 						x++;
-						if (x == (nx+1)){
+						if (x == (nxh+1) && y <= nyh){
+							x--;
+						}else if (x == (nx+1)){
 							count++;
 							x=1;
-						} else if (x == (nxh+1) && y <= nyh){
-							x--;
 						}
 					} else if (move == 1){
 						x--;
-						if (x == -1){
+						if (x == nxh && y <= nyh){
+							x++;
+						}else if (x == -1){
 							x = nx -1;
 							count--;
-						} else if (x == nxh && y <= nyh){
-							x++;
 						}
 					} else if (move == 2){
 						y++;
-						if (y == (ny+1)){
+						if (x <= nxh && y == (nyh+1)){
+							y--;
+						} else if (y == (ny+1)){
 							y = ny;
-						} else if (x <= nxh && y == (nyh+1)){
 							y--;
 						}
 					} else if (move == 3){
 						y--;
-						if (y == -1){
-							y = 0;
-						} else if (x <= nxh && y == nyh){
+						if (x <= nxh && y == nyh){
 							y++;
+						}else if (y == -1){
+							y = 0;
 						}
 					}
 				}
 				/* cout << move << ";" << sigma << endl; */
-				cout << x << ";" << y << ";" << count << endl;
+				/* cout << x << ";" << y << ";" << count << endl; */
 			}
 		}
-		/* cout << e << ";" << count/(tmax*N) << endl; */
+		cout << e << ";" << count/(tmax*N) << endl;
 	}
 	return 0;
 }
