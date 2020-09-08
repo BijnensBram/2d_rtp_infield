@@ -28,25 +28,29 @@ import time
 # plt.savefig("pasc=0-1.png",dpi=190)
 # plt.show()
 
-for i in np.linspace(0.5,1.5,3):
-    data = np.loadtxt("no_neg_c="+str(round(i,2))+".txt",comments="#",delimiter=";")
-    plt.plot(data[:,0],data[:,1],marker=".",label="c="+str(round(i,2)))
+# for i in np.linspace(0.5,1.5,3):
+#     data = np.loadtxt("no_neg_c="+str(round(i,2))+".txt",comments="#",delimiter=";")
+#     plt.plot(data[:,0],data[:,1],marker=".",label="c="+str(round(i,2)))
 
-plt.hlines(0,xmin=-0.01,xmax=1,colors="black")
-plt.vlines(0,ymin=-0.0,ymax=0.5,colors="black")
-plt.legend(ncol=2)
-plt.savefig("negc_no_obstacle.png",dpi=190)
-plt.show()
+# plt.hlines(0,xmin=-0.01,xmax=1,colors="black")
+# plt.vlines(0,ymin=-0.0,ymax=0.5,colors="black")
+# plt.xlim([-0.1, 0.1])
+# plt.ylim([-0.1, 0.1])
+# plt.legend(ncol=2)
+# plt.savefig("negc_no_obstacle.png",dpi=190)
+# plt.show()
 
-for i in np.linspace(0.5,1.5,3):
-    data = np.loadtxt("neg_c="+str(round(i,2))+".txt",comments="#",delimiter=";")
-    plt.plot(data[:,0],data[:,1],marker=".",label="c="+str(round(i,2)))
+# for i in np.linspace(0.5,1.5,3):
+#     data = np.loadtxt("neg_c="+str(round(i,2))+".txt",comments="#",delimiter=";")
+#     plt.plot(data[:,0],data[:,1],marker=".",label="c="+str(round(i,2)))
 
-plt.hlines(0,xmin=-0.01,xmax=1,colors="black")
-plt.vlines(0,ymin=-0.0,ymax=0.5,colors="black")
-plt.legend(ncol=2)
-plt.savefig("negc_obstacle.png",dpi=190)
-plt.show()
+# plt.hlines(0,xmin=-0.01,xmax=1,colors="black")
+# plt.vlines(0,ymin=-0.0,ymax=0.5,colors="black")
+# plt.xlim([-0.01, 1])
+# plt.ylim([-0.01, 0.12])
+# plt.legend(ncol=2)
+# plt.savefig("negc_obstacle.png",dpi=190)
+# plt.show()
 
 # for i in np.linspace(0.1,1,10):
 #     data = np.loadtxt("noa="+str(round(i,2))+".txt",comments="#",delimiter=";")
@@ -66,3 +70,14 @@ plt.show()
 # plt.vlines(0,ymin=-1,ymax=1,colors="black")
 # plt.savefig("noc=0-1.png",dpi=190)
 # plt.show()
+
+data = np.loadtxt("sym_rates.txt",comments="#",delimiter=";")
+plt.plot(data[:,0],data[:,1],marker=".")
+
+plt.hlines(0,xmin=-0.01,xmax=1,colors="black")
+plt.vlines(0,ymin=-0.0,ymax=0.5,colors="black")
+# plt.xlim([-0.1, 0.1])
+# plt.ylim([-0.1, 0.1])
+plt.legend(ncol=2)
+plt.savefig("symrates.png",dpi=190)
+plt.show()
