@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 1000; 
+    const int N = 500; 
 	double rand = 0;
 	int rand2 = 0;
 
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]){
 	PRINTER(N);
 	PRINTER(tmax);
 
-	for (double e = -1.5; e <= 1.5; e+=0.1){
+	for (double e = -1; e <= 1; e+=0.1){
 
 		double bp = 0.5*(c+e);
 		double bm = 0.5*(-c+e);
@@ -86,17 +86,18 @@ int main(int argc, char *argv[]){
 		double bd = 0.5*(-c);
 		double be = 0.5*(e);
 		
-		double p[4] = {(bp+sqrt(bp*bp+1))/dx,1/((bp+sqrt(bp*bp+1))*dx),1/dx,1/dx};
-		double m[4] = {(bm+sqrt(bm*bm+1))/dx,1/((bm+sqrt(bm*bm+1))*dx),1/dx,1/dx};
+		double p[4] = {(bp+sqrt(bp*bp+1))/dx,1/((bp+sqrt(bp*bp+1))*dx),1/((bu+sqrt(bu*bu+1))*dx),1/((bu+sqrt(bu*bu+1))*dx)};
+		double m[4] = {(bm+sqrt(bm*bm+1))/dx,1/((bm+sqrt(bm*bm+1))*dx),1/((bu+sqrt(bu*bu+1))*dx),1/((bu+sqrt(bu*bu+1))*dx)};
 		double u[4] = {(be+sqrt(be*be+1))/dx,1/((be+sqrt(be*be+1))*dx),(bu+sqrt(bu*bu+1))/dx,1/((bu+sqrt(bu*bu+1))*dx)};
 		double d[4] = {(be+sqrt(be*be+1))/dx,1/((be+sqrt(be*be+1))*dx),(bd+sqrt(bd*bd+1))/dx,1/((bd+sqrt(bd*bd+1))*dx)};
 		int move = 0;	
 		testerror(dt,p,m,u,d);
 		int count = 0;
+		/* cout << e << ";" << p[0] << ";" << p[1] << ";" << p[2] << ";" << p[3] << ";" << 1/dx << endl; */
 		for (int i=1; i <= N; i++){
 			x = distx(rng);
 			y = disty(rng);
-			for (double t = 0; t < 100; t += dt){
+			for (double t = 0; t < 50; t += dt){
 				rand = dist(rng);
 				rand2 = distsigma(rng);
 				sigma = fliptest(a*dt,sigma,rand,rand2);
@@ -119,7 +120,9 @@ int main(int argc, char *argv[]){
 						}
 					} else if (move == 2){
 						y++;
-						if (y == (ny+1)){
+						if (x <= nxh && y == (nyh+1)){
+							y--;
+						} else if (y == (ny+1)){
 							y = ny;
 						} else if (x <= nxh && y == (nyh+1)){
 							y--;

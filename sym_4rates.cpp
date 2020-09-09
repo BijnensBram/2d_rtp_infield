@@ -119,7 +119,9 @@ int main(int argc, char *argv[]){
 						}
 					} else if (move == 2){
 						y++;
-						if (y == (ny+1)){
+						if (x <= nxh && y == (nyh+1)){
+							y--;
+						} else if (y == (ny+1)){
 							y = ny;
 						} else if (x <= nxh && y == (nyh+1)){
 							y--;
