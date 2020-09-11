@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 500; 
+    const int N = 1000; 
 	double rand = 0;
 	int rand2 = 0;
 
@@ -64,8 +64,8 @@ int main(int argc, char *argv[]){
 	std::mt19937 rng(dev());
 	std::uniform_real_distribution<double> dist(0,1);
 	std::uniform_int_distribution<int> distsigma(0,3);
-	std::uniform_int_distribution<int> distx(0,nx);
-	std::uniform_int_distribution<int> disty(0,ny);
+	std::uniform_int_distribution<int> distx(nxh,nx);
+	std::uniform_int_distribution<int> disty(nyh,ny);
 
 	double c = stod(argv[1]);
 	double a = stod(argv[2]);
