@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 1000; 
+    const int N = 2000; 
 	double rand = 0;
 	int rand2 = 0;
 
@@ -64,8 +64,8 @@ int main(int argc, char *argv[]){
 	std::mt19937 rng(dev());
 	std::uniform_real_distribution<double> dist(0,1);
 	std::uniform_int_distribution<int> distsigma(0,3);
-	std::uniform_int_distribution<int> distx(nxh,nx);
-	std::uniform_int_distribution<int> disty(nyh,ny);
+	std::uniform_int_distribution<int> distx(0,nx);
+	std::uniform_int_distribution<int> disty(0,ny);
 
 	double c = stod(argv[1]);
 	double a = stod(argv[2]);
@@ -78,7 +78,7 @@ int main(int argc, char *argv[]){
 	PRINTER(N);
 	PRINTER(tmax);
 
-	for (double e = -0.5; e <= 1.5; e+=0.1){
+	for (double e = -2; e <= 2; e+=0.1){
 
 		double bp = 0.5*(c+e);
 		double bm = 0.5*(-c+e);
@@ -88,8 +88,8 @@ int main(int argc, char *argv[]){
 		
 		double p[4] = {(bp+sqrt(bp*bp+1))/dx,1/((bp+sqrt(bp*bp+1))*dx),1/((bu+sqrt(bu*bu+1))*dx),1/((bu+sqrt(bu*bu+1))*dx)};
 		double m[4] = {(bm+sqrt(bm*bm+1))/dx,1/((bm+sqrt(bm*bm+1))*dx),1/((bu+sqrt(bu*bu+1))*dx),1/((bu+sqrt(bu*bu+1))*dx)};
-		double u[4] = {(be+sqrt(be*be+1))/dx,1/((be+sqrt(be*be+1))*dx),(bu+sqrt(bu*bu+1))/dx,1/((bu+sqrt(bu*bu+1))*dx)};
-		double d[4] = {(be+sqrt(be*be+1))/dx,1/((be+sqrt(be*be+1))*dx),(bd+sqrt(bd*bd+1))/dx,1/((bd+sqrt(bd*bd+1))*dx)};
+		double u[4] = {(bm+sqrt(bm*bm+1))/dx,1/((bp+sqrt(bp*bp+1))*dx),(bu+sqrt(bu*bu+1))/dx,1/((bu+sqrt(bu*bu+1))*dx)};
+		double d[4] = {(bm+sqrt(bm*bm+1))/dx,1/((bp+sqrt(bp*bp+1))*dx),(bd+sqrt(bd*bd+1))/dx,1/((bd+sqrt(bd*bd+1))*dx)};
 		int move = 0;	
 		testerror(dt,p,m,u,d);
 		int count = 0;
@@ -249,7 +249,7 @@ int main(int argc, char *argv[]){
 				/* cout << x << ";" << y << ";" << count << endl; */
 			}
 		}
-		cout << e << ";" << count/(tmax*N) << endl;
+		cout << e << ";" << count/(tmax) << endl;
 	}
 	return 0;
 }

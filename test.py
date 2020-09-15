@@ -1,12 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-x,y,count = np.loadtxt("test.txt",comments="#",delimiter=";",unpack=True)
+x,y = np.loadtxt("test.txt",comments="#",delimiter=";",unpack=True)
 
-for i in range(int(9*len(x)/10),len(x)):
-    plt.scatter(x[i],y[i])
-    plt.xlim([0,10])
-    plt.ylim([0,10])
-    plt.title(count[i])
-    plt.savefig("./fig/"+str(i)+".png",dpi=190)
-    plt.close()
+# for i in np.linspace(0,len(x),201):
+#     plt.plot(x[0:int(i)],y[0:int(i)])
+#     plt.xlim([0,11])
+#     plt.ylim([0,11])
+#     plt.show()
+
+plt.plot(x,y)
+plt.show()
