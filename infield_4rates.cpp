@@ -4,8 +4,10 @@
 #include <stdio.h>
 using namespace std;
 
+/* printing metadata */ 
 #define PRINTER(name) std::cout << "#" << #name << " = " << name << std::endl;
 
+/* test whether and what way the particle moves */ 
 int movetest(double dt, double *k, double rand){
 	if (rand < k[0]*dt){
 		return 0;
@@ -20,6 +22,7 @@ int movetest(double dt, double *k, double rand){
 	}
 }
 
+/* test whether sigma flips or not */ 
 int fliptest(double mu,int sigma, double rand,int rand2){
 	if (rand < 1-mu){
 		return sigma;
@@ -28,6 +31,7 @@ int fliptest(double mu,int sigma, double rand,int rand2){
 	}
 }
 
+/* move function with hook at the left side of the unit cell */ 
 void lefthook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
 	if (move == 0){
 		(*x)++;
@@ -62,7 +66,7 @@ void lefthook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, in
 	}
 }
 
-
+/* move function with hook at the right side of the unit cell */ 
 void righthook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
 	if (move == 0){
 		(*x)++;
@@ -82,20 +86,22 @@ void righthook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, i
 		}
 	} else if (move == 2){
 		(*y)++;
-		if ((*x) >= nxh && (*y) == (nyh+1)){
+		if ((*x) >= (nxh+1) && (*y) == (nyh+1)){
 			(*y)--;
 		} else if ((*y) == (ny+1)){
 			(*y) = ny;
 		}
 	} else if (move == 3){
 		(*y)--;
-		if ((*x) >= nxh && (*y) == nyh){
+		if ((*x) >= (nxh+1) && (*y) == nyh){
 			(*y)++;
 		}else if ((*y) == 0){
 			(*y) = 1;
 		}
 	}
 }
+
+/* move function with symmetric hook */ 
 void symhook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
 	if (move == 0){
 		(*x)++;
@@ -129,6 +135,8 @@ void symhook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int
 		}
 	}
 }
+
+/* move function without obstacle */ 
 void no_obstacle(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
 	if (move == 0){
 		(*x)++;
@@ -154,6 +162,8 @@ void no_obstacle(int move, int *x, int *y, int *count, int nx, int nxh, int nx1,
 		}
 	}
 }
+
+/* function to test if particles do not have a change to move greater than one */ 
 int testerror (double dt, double p[],double m[],double u[],double d[]){
 	if ( (p[1]+p[2]+p[3]+p[0])*dt > 1 | (m[1]+m[2]+m[3]+m[0])*dt > 1 | (u[1]+u[2]+u[3]+u[0])*dt > 1 | (d[1]+d[2]+d[3]+d[0])*dt > 1){
 		cerr << "Error: rates to high for dt" << endl;
@@ -163,6 +173,7 @@ int testerror (double dt, double p[],double m[],double u[],double d[]){
 }
 
 int main(int argc, char *argv[]){
+	/* setting the program constants */ 
     const double pi2 = 6.28318530718;
 	const double lx = 1;
 	const double ly = 1;
@@ -177,32 +188,35 @@ int main(int argc, char *argv[]){
 	const int nxh = 5;
 	const int nyh = 5;
     const int N = 2000; 
-	double rand = 0;
-	int rand2 = 0;
 
     /* init */
-	
+	/* random number generators */ 
 	std::random_device dev;
 	std::mt19937 rng(dev());
 	std::uniform_real_distribution<double> dist(0,1);
 	std::uniform_int_distribution<int> distsigma(0,3);
 	std::uniform_int_distribution<int> distx(1,nx);
 	std::uniform_int_distribution<int> disty(1,ny);
-   
+	
+	/* defining variables */ 
+	double rand = 0;
+	int rand2 = 0;
 	int x = 0;
     int y = 0;
 	int sigma = distsigma(rng);
 	int count = 0;
 	int move = 0;	
+	void (*movefunc)(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh);
 
+	/* taking user input */ 
 	double c = stod(argv[1]);
 	double a = stod(argv[2]);
 	double dt = stod(argv[3]);
 	double tmax = stod(argv[4]);
 
 	int obstacle = stod(argv[5]);
-	void (*movefunc)(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh);
 	
+	/* setting the obstacle */ 
 	if (obstacle == 1){
 		movefunc=&lefthook;
 	} else if (obstacle == 2) {
@@ -212,13 +226,15 @@ int main(int argc, char *argv[]){
 	} else {
 		movefunc=&no_obstacle;
 	}
-
+	
+	/* printing out the parameters */ 
 	PRINTER(dt);
 	PRINTER(a);
 	PRINTER(c);
 	PRINTER(N);
 	PRINTER(tmax);
 
+	/* simulation */ 
 	for (double e = -2; e <= 2; e+=0.2){
 
 		double bp = 0.5*(c+e);
