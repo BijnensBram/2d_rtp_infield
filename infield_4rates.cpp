@@ -32,133 +32,133 @@ int fliptest(double mu,int sigma, double rand,int rand2){
 }
 
 /* move function with hook at the left side of the unit cell */ 
-void lefthook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
+void lefthook(int move, int &x, int &y, int &count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
 	if (move == 0){
-		(*x)++;
-		if ((*x) == (nx+1) && (*y) <= nyh){
-			(*x)--;
-		}else if ((*x) == (nx+1)){
-			(*count)++;
-			(*x)=2;
+		x++;
+		if (x == (nx+1) && y <= nyh){
+			x--;
+		}else if (x == (nx+1)){
+			count++;
+			x=2;
 		}
 	} else if (move == 1){
-		(*x)--;
-		if ((*x) == 0 && (*y) <= nyh){
-			(*x)++;
-		}else if ((*x) == 0){
-			(*x) = nx-1;
-			(*count)--;
+		x--;
+		if (x == 0 && y <= nyh){
+			x++;
+		}else if (x == 0){
+			x = nx-1;
+			count--;
 		}
 	} else if (move == 2){
-		(*y)++;
-		if ((*x) <= nxh && (*y) == (nyh+1)){
-			(*y)--;
-		} else if ((*y) == (ny+1)){
-			(*y) = ny;
+		y++;
+		if (x <= nxh && y == (nyh+1)){
+			y--;
+		} else if (y == (ny+1)){
+			y = ny;
 		}
 	} else if (move == 3){
-		(*y)--;
-		if ((*x) <= nxh && (*y) == nyh){
-			(*y)++;
-		}else if ((*y) == 0){
-			(*y) = 1;
+		y--;
+		if (x <= nxh && y == nyh){
+			y++;
+		}else if (y == 0){
+			y = 1;
 		}
 	}
 }
 
 /* move function with hook at the right side of the unit cell */ 
-void righthook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
+void righthook(int move, int &x, int &y, int &count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
 	if (move == 0){
-		(*x)++;
-		if ((*x) == (nx+1) && (*y) <= nyh){
-			(*x)--;
-		}else if ((*x) == (nx+1)){
-			(*count)++;
-			(*x)=2;
+		x++;
+		if (x == (nx+1) && y <= nyh){
+			x--;
+		}else if (x == (nx+1)){
+			count++;
+			x=2;
 		}
 	} else if (move == 1){
-		(*x)--;
-		if ((*x) == 0 && (*y) <= nyh){
-			(*x)++;
-		}else if ((*x) == 0){
-			(*x) = nx -1;
-			(*count)--;
+		x--;
+		if (x == 0 && y <= nyh){
+			x++;
+		}else if (x == 0){
+			x = nx -1;
+			count--;
 		}
 	} else if (move == 2){
-		(*y)++;
-		if ((*x) >= (nxh+1) && (*y) == (nyh+1)){
-			(*y)--;
-		} else if ((*y) == (ny+1)){
-			(*y) = ny;
+		y++;
+		if (x >= (nxh+1) && y == (nyh+1)){
+			y--;
+		} else if (y == (ny+1)){
+			y = ny;
 		}
 	} else if (move == 3){
-		(*y)--;
-		if ((*x) >= (nxh+1) && (*y) == nyh){
-			(*y)++;
-		}else if ((*y) == 0){
-			(*y) = 1;
+		y--;
+		if (x >= (nxh+1) && y == nyh){
+			y++;
+		}else if (y == 0){
+			y = 1;
 		}
 	}
 }
 
 /* move function with symmetric hook */ 
-void symhook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
+void symhook(int move, int &x, int &y, int &count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
 	if (move == 0){
-		(*x)++;
-		if ((*x) == (nxh)+1 && (*y) <= nyh){
-			(*x)--;
-		}else if ((*x) == (nx+1)){
-			(*count)++;
-			(*x)=2;
+		x++;
+		if (x == (nxh)+1 && y <= nyh){
+			x--;
+		}else if (x == (nx+1)){
+			count++;
+			x=2;
 		}
 	} else if (move == 1){
-		(*x)--;
-		if ((*x) == nxh && (*y) <= nyh){
-			(*x)++;
-		}else if ((*x) == 0){
-			(*x) = nx -1;
-			(*count)--;
+		x--;
+		if (x == nxh && y <= nyh){
+			x++;
+		}else if (x == 0){
+			x = nx -1;
+			count--;
 		}
 	} else if (move == 2){
-		(*y)++;
-		if ((*x) >= nx1 && (*x) <= nx2 && (*y) == (nyh+1)){
-			(*y)--;
-		} else if ((*y) == (ny+1)){
-			(*y) = ny;
+		y++;
+		if (x >= nx1 && x <= nx2 && y == (nyh+1)){
+			y--;
+		} else if (y == (ny+1)){
+			y = ny;
 		}
 	} else if (move == 3){
-		(*y)--;
-		if ((*x) >= nx1 && (*x) <= nx2 && (*y) == (nyh)){
-			(*y)++;
-		}else if ((*y) == 0){
-			(*y) = 1;
+		y--;
+		if (x >= nx1 && x <= nx2 && y == (nyh)){
+			y++;
+		}else if (y == 0){
+			y = 1;
 		}
 	}
 }
 
 /* move function without obstacle */ 
-void no_obstacle(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
+void no_obstacle(int move, int &x, int &y, int &count, int nx, int nxh, int nx1, int nx2, int ny, int nyh){
 	if (move == 0){
-		(*x)++;
-		if ((*x) == (nx+1)){
-			(*count)++;
-			(*x)=2;
+		x++;
+		if (x == (nx+1)){
+			count++;
+			x=2;
 		}
 	} else if (move == 1){
-		(*x)--;
-		if ((*x) == 0){
-			(*x) = nx -1;
-			(*count)--;
+		x--;
+		if (x == 0){
+			x = nx -1;
+			count--;
 		}
 	} else if (move == 2){
-		(*y)++;
-		if ((*y) == (ny+1)){
-			(*y) = ny;
+		y++;
+		if (y == (ny+1)){
+			y = ny;
 		}
 	} else if (move == 3){
-		(*y)--;
-		if ((*y) == 0){
-			(*y) = 1;
+		y--;
+		if (y == 0){
+			y = 1;
 		}
 	}
 }
@@ -187,7 +187,7 @@ int main(int argc, char *argv[]){
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 2000; 
+    const int N = 20; 
 
     /* init */
 	/* random number generators */ 
@@ -206,7 +206,7 @@ int main(int argc, char *argv[]){
 	int sigma = distsigma(rng);
 	int count = 0;
 	int move = 0;	
-	void (*movefunc)(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, int nx2, int ny, int nyh);
+	void (*movefunc)(int move, int &x, int &y, int &count, int nx, int nxh, int nx1, int nx2, int ny, int nyh);
 
 	/* taking user input */ 
 	double c = stod(argv[1]);
@@ -263,7 +263,7 @@ int main(int argc, char *argv[]){
 
 				rand = dist(rng);
 				move = movetest(dt,rates,rand);
-				movefunc(move,&x,&y,&count,nx,nxh,nx1,nx2,ny,nyh);
+				movefunc(move,x,y,count,nx,nxh,nx1,nx2,ny,nyh);
 				/* cout << x << ";" << y << endl; */
 				/* cout << count << endl; */
 			}
