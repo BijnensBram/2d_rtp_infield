@@ -205,6 +205,7 @@ int main(int argc, char *argv[]){
     int y = 0;
 	int sigma = distsigma(rng);
 	int count = 0;
+	int count_dummy = 0;
 	int move = 0;	
 	void (*movefunc)(int move, int &x, int &y, int &count, int nx, int nxh, int nx1, int nx2, int ny, int nyh);
 
@@ -254,6 +255,21 @@ int main(int argc, char *argv[]){
 		for (int i=1; i <= N; i++){
 			x = distx(rng);
 			y = disty(rng);
+			/* equilibration period */ 
+			for (double t = 0; t < 100; t += dt){
+				rand = dist(rng);
+				rand2 = distsigma(rng);
+				sigma = fliptest(a*dt,sigma,rand,rand2);
+
+				rates = list_of_rates[sigma];
+
+				rand = dist(rng);
+				move = movetest(dt,rates,rand);
+				movefunc(move,x,y,count_dummy,nx,nxh,nx1,nx2,ny,nyh);
+				/* cout << x << ";" << y << endl; */
+				/* cout << count << endl; */
+			}
+			/* measuring period */ 
 			for (double t = 0; t < tmax; t += dt){
 				rand = dist(rng);
 				rand2 = distsigma(rng);
