@@ -39,14 +39,14 @@ void lefthook(int move, int &x, int &y, int &count, int nx, int nxh, int nx1, in
 			x--;
 		}else if (x == (nx+1)){
 			count++;
-			x=2;
+			x=1;
 		}
 	} else if (move == 1){
 		x--;
 		if (x == 0 && y <= nyh){
 			x++;
 		}else if (x == 0){
-			x = nx-1;
+			x = nx;
 			count--;
 		}
 	} else if (move == 2){
@@ -74,14 +74,14 @@ void righthook(int move, int &x, int &y, int &count, int nx, int nxh, int nx1, i
 			x--;
 		}else if (x == (nx+1)){
 			count++;
-			x=2;
+			x=1;
 		}
 	} else if (move == 1){
 		x--;
 		if (x == 0 && y <= nyh){
 			x++;
 		}else if (x == 0){
-			x = nx -1;
+			x = nx;
 			count--;
 		}
 	} else if (move == 2){
@@ -109,14 +109,14 @@ void symhook(int move, int &x, int &y, int &count, int nx, int nxh, int nx1, int
 			x--;
 		}else if (x == (nx+1)){
 			count++;
-			x=2;
+			x=1;
 		}
 	} else if (move == 1){
 		x--;
 		if (x == nxh && y <= nyh){
 			x++;
 		}else if (x == 0){
-			x = nx -1;
+			x = nx;
 			count--;
 		}
 	} else if (move == 2){
@@ -142,12 +142,12 @@ void no_obstacle(int move, int &x, int &y, int &count, int nx, int nxh, int nx1,
 		x++;
 		if (x == (nx+1)){
 			count++;
-			x=2;
+			x=1;
 		}
 	} else if (move == 1){
 		x--;
 		if (x == 0){
-			x = nx -1;
+			x = nx;
 			count--;
 		}
 	} else if (move == 2){
