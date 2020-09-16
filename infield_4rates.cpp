@@ -176,7 +176,7 @@ int main(int argc, char *argv[]){
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 50; 
+    const int N = 2000; 
 	double rand = 0;
 	int rand2 = 0;
 
