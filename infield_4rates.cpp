@@ -32,7 +32,6 @@ void lefthook(int move, int *x, int *y, int *count, int nx, int nxh, int nx1, in
 	if (move == 0){
 		(*x)++;
 		if ((*x) == (nx+1) && (*y) <= nyh){
-			cout << *x;
 			(*x)--;
 		}else if ((*x) == (nx+1)){
 			(*count)++;
@@ -173,11 +172,11 @@ int main(int argc, char *argv[]){
 	/* const int ny = int(ly/dx); */
 	const int nx = 10;
 	const int ny = 10;
-	const int nx1 = 2;
+	const int nx1 = 3;
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 2000; 
+    const int N = 50; 
 	double rand = 0;
 	int rand2 = 0;
 
@@ -228,10 +227,10 @@ int main(int argc, char *argv[]){
 		double bd = 0.5*(-c);
 		double be = 0.5*(e);
 		
-		double p[4] = {(bp+sqrt(bp*bp+1))/dx,1/((bp+sqrt(bp*bp+1))*dx),1/dx,1/dx};
-		double m[4] = {(bm+sqrt(bm*bm+1))/dx,1/((bm+sqrt(bm*bm+1))*dx),1/((bu+sqrt(bu*bu+1))*dx),1/((bu+sqrt(bu*bu+1))*dx)};
-		double u[4] = {(be+sqrt(be*be+1))/dx,1/((be+sqrt(be*be+1))*dx),(bu+sqrt(bu*bu+1))/dx,1/((bu+sqrt(bu*bu+1))*dx)};
-		double d[4] = {(be+sqrt(be*be+1))/dx,1/((be+sqrt(be*be+1))*dx),(bd+sqrt(bd*bd+1))/dx,1/((bd+sqrt(bd*bd+1))*dx)};
+		double p[4] = {(bp+sqrt(bp*bp+1))/dx,1/((bp+sqrt(bp*bp+1))*dx),(bd+sqrt(bd*bd+1))/dx,(bd+sqrt(bd*bd+1))/dx};
+		double m[4] = {(bm+sqrt(bm*bm+1))/dx,1/((bm+sqrt(bm*bm+1))*dx),(bd+sqrt(bd*bd+1))/dx,(bd+sqrt(bd*bd+1))/dx};
+		double u[4] = {(bm+sqrt(bm*bm+1))/dx,1/((bp+sqrt(bp*bp+1))*dx),(bu+sqrt(bu*bu+1))/dx,((bd+sqrt(bd*bd+1))*dx)};
+		double d[4] = {(be+sqrt(be*be+1))/dx,1/((be+sqrt(be*be+1))*dx),(bd+sqrt(bd*bd+1))/dx,((bu+sqrt(bu*bu+1))/dx)};
 		double *list_of_rates[4] = {p, m, u, d};
 		double *rates;
 		testerror(dt,p,m,u,d);
