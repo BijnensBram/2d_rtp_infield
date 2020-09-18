@@ -187,7 +187,7 @@ int main(int argc, char *argv[]){
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 20; 
+    const int N = 2000; 
 
     /* init */
 	/* random number generators */ 
@@ -236,7 +236,7 @@ int main(int argc, char *argv[]){
 	PRINTER(tmax);
 
 	/* simulation */ 
-	for (double e = -2; e <= 2; e+=0.2){
+	for (double e = 0; e <= 2; e+=0.05){
 
 		double bp = 0.5*(c+e);
 		double bm = 0.5*(-c+e);
@@ -256,7 +256,7 @@ int main(int argc, char *argv[]){
 			x = distx(rng);
 			y = disty(rng);
 			/* equilibration period */ 
-			for (double t = 0; t < 100; t += dt){
+			for (double t = 0; t < 50; t += dt){
 				rand = dist(rng);
 				rand2 = distsigma(rng);
 				sigma = fliptest(a*dt,sigma,rand,rand2);
