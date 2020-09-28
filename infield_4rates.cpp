@@ -187,7 +187,7 @@ int main(int argc, char *argv[]){
 	const int nx2 = 8;
 	const int nxh = 5;
 	const int nyh = 5;
-    const int N = 2000; 
+    const int N = 10000; 
 
     /* init */
 	/* random number generators */ 
@@ -236,7 +236,7 @@ int main(int argc, char *argv[]){
 	PRINTER(tmax);
 
 	/* simulation */ 
-	for (double e = 0; e <= 2; e+=0.05){
+	for (double e = 0; e <= 4; e+=0.1){
 
 		double bp = 0.5*(c+e);
 		double bm = 0.5*(-c+e);
